@@ -73,13 +73,14 @@ These skills:
 
 ## Skill Categories
 
-| Category   | Description                        |
-| ---------- | ---------------------------------- |
-| review     | Change audits, regression analysis |
-| research   | Competitive feature analysis       |
-| cleanup    | Refactor and commit structuring    |
-| ux         | UX analysis and design review      |
-| automation | Persistent or DB-connected skills  |
+| Category      | Description                        |
+| ------------- | ---------------------------------- |
+| review        | Change audits, regression analysis |
+| research      | Competitive feature analysis       |
+| cleanup       | Refactor and commit structuring    |
+| documentation | Architecture specs, design docs    |
+| ux            | UX analysis and design review      |
+| automation    | Persistent or DB-connected skills  |
 
 ---
 
