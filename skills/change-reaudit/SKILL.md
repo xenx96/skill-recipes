@@ -16,6 +16,8 @@ metadata:
 
 # Skill: Change Re-Audit (Side Effects, Regression, Edge Cases)
 
+**Type:** Execution
+
 ## Purpose
 
 Perform a rigorous re-audit of the current changes.

@@ -50,6 +50,14 @@ def is_template_file(path: Path) -> bool:
     return "_template" in path.parts
 
 
+def is_readme_file(path: Path) -> bool:
+    return path.name.lower() == "readme.md"
+
+
+def is_subskill_file(path: Path) -> bool:
+    return "subskills" in path.parts
+
+
 def is_markdown_file(path: Path) -> bool:
     return path.suffix.lower() in {".md", ".markdown"}
 
@@ -136,7 +144,11 @@ def main() -> int:
     md_files = [
         p
         for p in SKILLS_DIR.rglob("*")
-        if p.is_file() and is_markdown_file(p) and not is_template_file(p)
+        if p.is_file()
+        and is_markdown_file(p)
+        and not is_template_file(p)
+        and not is_readme_file(p)
+        and not is_subskill_file(p)
     ]
 
     # Nothing to validate is okay (early stage repo).

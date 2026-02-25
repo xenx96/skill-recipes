@@ -17,6 +17,8 @@ metadata:
 
 # Skill: Competitive Feature Benchmark (UX & Interaction Level)
 
+**Type:** Execution
+
 ## Purpose
 
 Research and analyze how competing products implement a similar feature.

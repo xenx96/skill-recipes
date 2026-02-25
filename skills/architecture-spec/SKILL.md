@@ -17,6 +17,8 @@ metadata:
 
 # Skill: Architecture Spec (Post-Implementation)
 
+**Type:** Execution
+
 ## Purpose
 
 Given implemented changes (diff / changed files), generate an

@@ -17,6 +17,8 @@ metadata:
 
 # Skill: Finalize Changes and Commit (Cleanup, Deduplication, Hardcoded Audit)
 
+**Type:** Execution
+
 ## Purpose
 
 Finalize current changes for production readiness.

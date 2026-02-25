@@ -19,6 +19,8 @@ metadata:
 
 # Skill: UX Sentinel
 
+**Type:** System
+
 ## Purpose
 
 Continuously detect UI/UX concepts during frontend discussions,
