@@ -97,8 +97,11 @@ Do NOT re-prompt on every concept detection.
             "properties": { <SCHEMA — see Notion Database Requirements> } }'
    ```
 
-   The `NOTION_TOKEN` can be found in `~/.cursor/mcp.json`
-   under `mcpServers.notion-local.env.NOTION_TOKEN`.
+   The `NOTION_TOKEN` can be retrieved from your MCP client's configuration.
+   Common locations:
+   - Cursor: `~/.cursor/mcp.json` → `mcpServers.notion-local.env.NOTION_TOKEN`
+   - Claude Desktop: `~/Library/Application Support/Claude/claude_desktop_config.json`
+   - Other clients: check your MCP client's documentation
 
 4. **Cache the returned `database_id`** for the conversation.
    After creation, all subsequent reads/writes use MCP tools
@@ -208,7 +211,7 @@ Required properties:
 ### Manual Setup (fallback)
 
 If direct REST API access is unavailable (e.g. no shell access,
-token not found in `~/.cursor/mcp.json`):
+token not found in your MCP client configuration):
 
 1. Create a page under the chosen parent via MCP `API-post-page`.
 2. Print the property schema table above and instruct the user to
