@@ -4,49 +4,88 @@ Engineering-grade skill recipes for working with LLMs.
 
 This repository is a curated collection of reusable, structured prompt workflows
 designed for software engineering tasks — debugging, documentation, review,
-research, and system analysis.
+research, automation, and system analysis.
 
-Each skill is written as a **recipe**:
-- Clear purpose
-- Required inputs
-- Expected output format
-- Guardrails
-- Failure patterns
-- Realistic examples
+Each skill is written as a **recipe** — not a random prompt.
 
-This is not a random prompt list.
-It is a structured cookbook for reliable reuse.
+This is a structured cookbook for reliable reuse.
 
 ---
 
 ## Quick Start
 
 1. Browse the `skills/` directory.
-2. Open a skill relevant to your task.
+2. Identify whether your task needs:
+   - An **Execution Skill** (single-run workflow), or
+   - A **System Skill** (persistent / automation behavior).
 3. Read the **Inputs Required** section carefully.
-4. Provide all required context to your LLM.
-5. Validate output using the checklist provided in the skill.
+4. Provide complete context.
+5. Validate output using the skill’s checklist.
 
-Do not skip the input checklist.
-Most bad outputs come from incomplete context.
+Most bad outputs come from incomplete inputs.
+
+---
+
+## Skill Types
+
+This repository contains two types of skills:
+
+### 1. Execution Skills
+
+Single-run structured workflows.
+
+Used for:
+
+- Code review
+- Change auditing
+- Competitive benchmarking
+- Documentation writing
+- Refactoring validation
+
+These skills:
+
+- Require explicit inputs
+- Produce structured outputs
+- Contain guardrails and failure patterns
+- Include realistic examples
+
+---
+
+### 2. System Skills
+
+Persistent or automation-oriented behaviors.
+
+Used for:
+
+- Continuous concept detection
+- Knowledge tracking
+- External DB synchronization
+- Conversation-wide logic
+
+These skills:
+
+- Define activation rules
+- Maintain state (conversation or external DB)
+- Specify side effects explicitly
+- Include operational guardrails
 
 ---
 
 ## Skill Categories
 
-| Category | Description |
-|----------|------------|
-| debugging | UI, browser, runtime debugging workflows |
-| docs | Spec writing, architecture documentation |
-| ux | UI/UX review and design critique |
-| research | Competitive analysis, feature comparison |
-| review | Code review and side-effect analysis |
+| Category   | Description                        |
+| ---------- | ---------------------------------- |
+| review     | Change audits, regression analysis |
+| research   | Competitive feature analysis       |
+| cleanup    | Refactor and commit structuring    |
+| ux         | UX analysis and design review      |
+| automation | Persistent or DB-connected skills  |
 
 ---
 
 ## Skill Structure
 
-Each skill follows a strict format:
+### Execution Skill Structure
 
 - Purpose
 - When to Use
@@ -56,28 +95,40 @@ Each skill follows a strict format:
 - Procedure
 - Guardrails
 - Failure Patterns
-- Examples
-
-Consistency matters more than creativity.
+- Examples (minimum 2)
 
 ---
 
-## Model Assumptions
+### System Skill Structure
 
-These recipes assume:
-- A reasoning-capable LLM
-- Ability to paste structured context
-- Long-context support preferred
-
-They are model-agnostic by design.
+- Purpose
+- Scope (triggers / non-triggers)
+- Inputs / Signals
+- Core Behavior (Detection → Decision → Action)
+- Output / Side Effects
+- Guardrails
+- Failure Patterns
+- Examples
 
 ---
 
 ## Skill Maturity Levels
 
-- Draft — experimental, may evolve
+- Draft — experimental
 - Stable — reliable for repeated use
-- Production — validated across real workflows
+- Production — validated in real workflows
+
+---
+
+## Model Assumptions
+
+Skills are model-agnostic.
+
+Assume:
+
+- A reasoning-capable LLM
+- Structured context input
+- Long-context support preferred
 
 ---
 
@@ -86,12 +137,16 @@ They are model-agnostic by design.
 LLMs are unreliable without structure.
 
 Structure reduces:
+
 - Hallucination
 - Ambiguity
 - Context loss
 - Overconfidence errors
 
-Good prompting is engineering, not magic.
+Prompting is engineering.
+
+System skills extend this philosophy
+into persistent decision-memory patterns.
 
 ---
 
@@ -101,9 +156,11 @@ This repository is primarily maintained for personal reuse,
 but high-quality pull requests are welcome.
 
 Rules:
-- Follow the skill template exactly
-- Include at least 2 realistic examples
-- Explicitly document failure patterns
+
+- Use the correct template (Execution or System)
+- Follow structure strictly
+- Include realistic examples
+- Document guardrails and failure patterns
 
 ---
 
