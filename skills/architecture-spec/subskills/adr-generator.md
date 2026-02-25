@@ -1,6 +1,6 @@
 # Subskill: ADR Generator
 
-**Parent:** [architecture-spec.md](../architecture-spec.md)  
+**Parent:** [SKILL.md](../SKILL.md)  
 **Role:** ADR section generation (Level C only)
 
 ---

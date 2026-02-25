@@ -1,18 +1,71 @@
 # Remy Skill Recipes (한국어 안내)
 
 이 레포는 LLM을 활용한 엔지니어링 작업을
-구조화하기 위한 “스킬 레시피” 모음입니다.
+구조화하기 위한 "스킬 레시피" 모음입니다.
 
 단순 프롬프트 모음이 아닙니다.
 재사용 가능하고 실패 확률을 줄이는 구조화된 워크플로우 시스템입니다.
+
+모든 스킬은 [SKILL.md 오픈 표준](https://agentskills.io/)을 따릅니다.
+Claude Code, Cursor, Codex, Gemini CLI 등 27+ AI 에이전트와 호환됩니다.
+
+---
+
+## 빠른 시작
+
+### 스킬 설치
+
+스킬 폴더를 에이전트의 스킬 디렉토리로 복사합니다:
+
+```bash
+# Cursor
+cp -r skills/change-reaudit ~/.cursor/skills/
+
+# Claude Code
+cp -r skills/change-reaudit ~/.claude/skills/
+```
+
+에이전트가 자동으로 스킬을 탐색하고 매칭되는 작업에 활성화합니다.
+
+### 직접 사용
+
+1. `skills/` 폴더에서 스킬을 선택합니다.
+2. Execution인지 System인지 구분합니다.
+3. 입력 조건을 반드시 확인합니다.
+4. 출력 결과를 체크리스트로 검증합니다.
+
+입력 정보가 부족하면 결과 품질이 급격히 낮아집니다.
+
+---
+
+## 스킬 포맷
+
+모든 스킬은 `SKILL.md` 파일이 있는 폴더로 구성됩니다:
+
+```yaml
+---
+name: change-reaudit
+description: >
+  코드 변경사항을 재감사하여 사이드 이펙트, 회귀 위험,
+  미처리 엣지 케이스를 식별합니다.
+license: MIT
+compatibility:
+  - Claude Code
+  - Cursor
+metadata:
+  type: execution
+  category: review
+---
+```
+
+에이전트는 탐색 단계에서 `name`과 `description`만 읽습니다 (~100 토큰).
+전체 마크다운 본문은 활성화 시 로딩됩니다 (<5000 토큰).
 
 ---
 
 ## 스킬 유형
 
-이 레포에는 두 가지 스킬 유형이 있습니다.
-
-### 1️⃣ Execution Skill (단발 실행형)
+### 1. Execution Skill (단발 실행형)
 
 한 번 실행하는 구조화된 워크플로우입니다.
 
@@ -33,7 +86,7 @@
 
 ---
 
-### 2️⃣ System Skill (지속/자동화형)
+### 2. System Skill (지속/자동화형)
 
 대화 전반 또는 외부 시스템과 연동되어
 지속적으로 동작하는 스킬입니다.
@@ -50,17 +103,6 @@
 - 상태 유지 (대화 / 외부 DB)
 - 명확한 Side Effect 정의
 - 중복 방지 및 운영 Guardrails 포함
-
----
-
-## 사용 방법
-
-1. `skills/` 폴더에서 스킬을 선택합니다.
-2. Execution인지 System인지 구분합니다.
-3. 입력 조건을 반드시 확인합니다.
-4. 출력 결과를 체크리스트로 검증합니다.
-
-입력 정보가 부족하면 결과 품질이 급격히 낮아집니다.
 
 ---
 
@@ -84,7 +126,8 @@ System Skill은 반복되는 패턴을 구조화합니다.
 
 ## 기여 규칙
 
-- Execution / System 템플릿 중 올바른 것을 사용
+- 올바른 템플릿 사용 (`_template/execution-template.md` 또는 `_template/system-template.md`)
+- SKILL.md 표준 준수 (YAML frontmatter 필수)
 - Guardrails 필수
 - Failure Patterns 필수
 - 현실적인 예시 최소 2개 포함

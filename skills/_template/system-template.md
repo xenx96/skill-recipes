@@ -1,13 +1,22 @@
-# System Skill Title
-
-**Category:**  
-**Type:** System (Persistent / Automation)  
-**Maturity:** Draft / Stable / Production  
-**Activation:** automatic / command-driven / hybrid  
-**State:** stateless / conversation-wide / external DB-backed  
-**Dependencies:** (e.g., Notion MCP)
-
 ---
+name: my-system-skill-name
+description: >
+  A clear description of the continuous behavior this skill provides
+  and when it should activate.
+license: MIT
+compatibility:
+  - Claude Code
+  - Cursor
+metadata:
+  type: system
+  category: automation
+  maturity: draft
+  activation: automatic / command-driven / hybrid
+  state: stateless / conversation-wide / external DB-backed
+  dependencies: (e.g., Notion MCP)
+---
+
+# System Skill Title
 
 ## Purpose
 

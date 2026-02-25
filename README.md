@@ -6,29 +6,81 @@ This repository is a curated collection of reusable, structured prompt workflows
 designed for software engineering tasks — debugging, documentation, review,
 research, automation, and system analysis.
 
-Each skill is written as a **recipe** — not a random prompt.
-
-This is a structured cookbook for reliable reuse.
+Each skill follows the [SKILL.md open standard](https://agentskills.io/) —
+compatible with Claude Code, Cursor, Codex, Gemini CLI, and 27+ AI agents.
 
 ---
 
 ## Quick Start
 
-1. Browse the `skills/` directory.
-2. Identify whether your task needs:
+### Browse
+
+```
+skills/
+├── change-reaudit/SKILL.md
+├── competitive-feature-benchmark/SKILL.md
+├── finalize-and-commit/SKILL.md
+├── ux-sentinel/SKILL.md
+└── architecture-spec/
+    ├── SKILL.md
+    └── subskills/
+```
+
+### Install a skill
+
+Copy a skill folder to your agent's skills directory:
+
+```bash
+# Cursor
+cp -r skills/change-reaudit ~/.cursor/skills/
+
+# Claude Code
+cp -r skills/change-reaudit ~/.claude/skills/
+```
+
+The agent will automatically discover and activate the skill when a matching task appears.
+
+### Use directly
+
+1. Identify whether your task needs:
    - An **Execution Skill** (single-run workflow), or
    - A **System Skill** (persistent / automation behavior).
-3. Read the **Inputs Required** section carefully.
-4. Provide complete context.
-5. Validate output using the skill’s checklist.
+2. Read the **Inputs Required** section carefully.
+3. Provide complete context.
+4. Validate output using the skill's checklist.
 
 Most bad outputs come from incomplete inputs.
 
 ---
 
-## Skill Types
+## Skill Format
 
-This repository contains two types of skills:
+Every skill is a folder containing a `SKILL.md` file with YAML frontmatter:
+
+```yaml
+---
+name: change-reaudit
+description: >
+  Re-audit code changes to identify side effects, regression risks,
+  and unhandled edge cases before merging or deploying.
+license: MIT
+compatibility:
+  - Claude Code
+  - Cursor
+metadata:
+  type: execution
+  category: review
+  maturity: draft
+  estimated_time: 10 min
+---
+```
+
+Agents read only `name` and `description` during discovery (~100 tokens).
+The full markdown body loads on activation (<5000 tokens).
+
+---
+
+## Skill Types
 
 ### 1. Execution Skills
 
@@ -79,7 +131,6 @@ These skills:
 | research      | Competitive feature analysis       |
 | cleanup       | Refactor and commit structuring    |
 | documentation | Architecture specs, design docs    |
-| ux            | UX analysis and design review      |
 | automation    | Persistent or DB-connected skills  |
 
 ---
@@ -158,8 +209,8 @@ but high-quality pull requests are welcome.
 
 Rules:
 
-- Use the correct template (Execution or System)
-- Follow structure strictly
+- Use the correct template (`_template/execution-template.md` or `_template/system-template.md`)
+- Follow the SKILL.md standard (YAML frontmatter required)
 - Include realistic examples
 - Document guardrails and failure patterns
 

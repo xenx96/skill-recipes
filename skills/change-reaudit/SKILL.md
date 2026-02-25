@@ -1,12 +1,20 @@
-# Skill: Change Re-Audit (Side Effects, Regression, Edge Cases)
-
-**Category:** review  
-**Type:** Execution  
-**Maturity:** Draft  
-**Estimated Time:** 10 min  
-**Model Assumption:** Long-context preferred
-
 ---
+name: change-reaudit
+description: >
+  Re-audit code changes to identify side effects, regression risks,
+  and unhandled edge cases before merging or deploying.
+license: MIT
+compatibility:
+  - Claude Code
+  - Cursor
+metadata:
+  type: execution
+  category: review
+  maturity: draft
+  estimated_time: 10 min
+---
+
+# Skill: Change Re-Audit (Side Effects, Regression, Edge Cases)
 
 ## Purpose
 

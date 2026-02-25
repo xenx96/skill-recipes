@@ -1,6 +1,6 @@
 # Subskill: Diff Risk Evaluator
 
-**Parent:** [architecture-spec.md](../architecture-spec.md)  
+**Parent:** [SKILL.md](../SKILL.md)  
 **Role:** Risk scoring (Step 1 of parent skill)
 
 ---

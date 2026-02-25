@@ -38,7 +38,7 @@ The level is selected automatically.
 
 ## Structure
 
-- [architecture-spec.md](architecture-spec.md) — Main skill (entry point)
+- [SKILL.md](SKILL.md) — Main skill (entry point)
 - [subskills/diff-risk-evaluator.md](subskills/diff-risk-evaluator.md) — Risk scoring
 - [subskills/notion-spec-generator.md](subskills/notion-spec-generator.md) — Document generation
 - [subskills/adr-generator.md](subskills/adr-generator.md) — ADR section (Level C)

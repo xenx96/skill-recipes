@@ -1,12 +1,19 @@
-# Skill Title
-
-**Category:**  
-**Type:** Execution  
-**Maturity:** Draft / Stable / Production  
-**Estimated Time:** 2 min / 5 min / 15 min  
-**Model Assumption:** Model-agnostic / Long-context preferred
-
 ---
+name: my-skill-name
+description: >
+  A clear description of what this skill does and when to activate it.
+license: MIT
+compatibility:
+  - Claude Code
+  - Cursor
+metadata:
+  type: execution
+  category: review / research / cleanup / documentation
+  maturity: draft
+  estimated_time: 5 min / 10 min / 15 min
+---
+
+# Skill Title
 
 ## Purpose
 

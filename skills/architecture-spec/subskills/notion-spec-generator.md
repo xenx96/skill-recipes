@@ -1,6 +1,6 @@
 # Subskill: Notion Spec Generator
 
-**Parent:** [architecture-spec.md](../architecture-spec.md)  
+**Parent:** [SKILL.md](../SKILL.md)  
 **Role:** Document generation (Step 3 of parent skill)
 
 ---
