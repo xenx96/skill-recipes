@@ -24,16 +24,10 @@ Notion lookup is always performed.
 
 ## Scope
 
-**Triggers:**
+This skill activates when:
 
-- UI/UX terms, principles, heuristics, laws, patterns, or design concepts appear in conversation
-- User issues a manual command: `@ux save`, `@ux save: <concept>`, `@ux skip`, `@ux link: <A> -> <B>`
-
-**Non-triggers:**
-
-- Purely technical discussions without UI/UX relevance (backend logic, infrastructure, DevOps)
-- Generic English words that coincidentally overlap with UX terms but lack design context
-- Code-only changes with no UI component or user-facing impact
+- UI/UX terms, principles, heuristics, laws, patterns, or design concepts appear.
+- The user triggers a manual command such as `@ux save`.
 
 This skill operates across the entire conversation history (global recurrence),
 not per-project or per-feature.
@@ -51,17 +45,18 @@ not per-project or per-feature.
 
 ## Core Behavior
 
-### 1) Detection / Intake
+### 0. Database Bootstrap (runs once per conversation)
 
-**Database Bootstrap** (runs once per conversation):
+Before any concept detection, verify the Notion database exists:
 
 1. Search Notion for a database titled `UI/UX Knowledge Base`
    using `API-post-search` with `filter: { value: "data_source", property: "object" }`.
 2. If found → cache the `database_id` for the conversation and proceed.
 3. If NOT found → ask the user:
 
-   "UI/UX Knowledge Base 데이터베이스가 Notion에 없습니다. 생성할까요? (Yes / No)"
-   - If **Yes** → follow the Database Creation procedure (see Notes).
+   "UI/UX Knowledge Base database not found in Notion. Create it? (Yes / No)"
+
+   - If **Yes** → follow the **Database Creation** steps below.
    - If **No** → fall back to local-only tracking for the rest of the conversation.
      All concept detection still runs, proposals are still shown,
      but no Notion reads/writes occur. Log: "Notion DB unavailable — local tracking only."
@@ -69,7 +64,50 @@ not per-project or per-feature.
 Cache the resolved `database_id` (or `null` if declined) for the conversation.
 Do NOT re-prompt on every concept detection.
 
-**Concept Detection:**
+#### Database Creation
+
+**Known constraints** (as of Notion API 2025-09-03 / Internal Integration):
+
+- Workspace-level page creation is blocked for Internal Integrations.
+- The MCP `API-create-a-data-source` endpoint does not support
+  new database creation under API version 2025-09-03.
+
+**Procedure:**
+
+1. **Select a parent page**: Search for a suitable existing page
+   (e.g. the project's root page) using `API-post-search`.
+   Present candidate pages to the user and let them choose.
+
+2. **Create a dedicated container page** under the chosen parent
+   via MCP `API-post-page` (e.g. title "UX Sentinel", icon shield emoji).
+   **Do NOT create the inline database directly inside the parent page** —
+   the parent is typically an index page whose document structure would break.
+
+3. **Create the database via direct REST API** (Shell tool),
+   using the **container page ID** from step 2 as the parent:
+
+   ```bash
+   curl -s -X POST 'https://api.notion.com/v1/databases' \
+     -H 'Authorization: Bearer $NOTION_TOKEN' \
+     -H 'Content-Type: application/json' \
+     -H 'Notion-Version: 2022-06-28' \
+     -d '{ "parent": { "type": "page_id", "page_id": "<CONTAINER_PAGE_ID>" },
+            "title": [{"type":"text","text":{"content":"UI/UX Knowledge Base"}}],
+            "is_inline": true,
+            "properties": { <SCHEMA — see Notion Database Requirements> } }'
+   ```
+
+   The `NOTION_TOKEN` can be found in `~/.cursor/mcp.json`
+   under `mcpServers.notion-local.env.NOTION_TOKEN`.
+
+4. **Cache the returned `database_id`** for the conversation.
+   After creation, all subsequent reads/writes use MCP tools
+   (`API-query-data-source`, `API-post-page`, `API-patch-page`)
+   which work normally with the 2025-09-03 API version.
+
+---
+
+### 1. Concept Detection
 
 When a UI/UX concept appears:
 
@@ -83,7 +121,103 @@ When a UI/UX concept appears:
    - Database: `UI/UX Knowledge Base`
    - Match by title or stored concept_key
 
-**Category Auto-Inference:**
+---
+
+### 2. If Concept Exists in Notion
+
+- Increment `Recurrence Count`
+- Update `Last Seen` (today)
+- Merge new `Trigger Context` tags if applicable
+- Optionally append short "New evidence/context" note
+
+No proposal required.
+
+---
+
+### 3. If Concept Does Not Exist
+
+- Track local recurrence counter (conversation-wide)
+
+If local recurrence >= 2:
+→ Propose registration.
+
+Proposal must include:
+
+- Concept name
+- Suggested category
+- One-line definition
+- 2–3 actionable UI decision rules
+
+Then ask:
+
+"Register to Notion? (Yes / No)"
+
+If Yes → Create entry.
+If No → Do nothing (keep counter).
+
+---
+
+## Manual Commands
+
+The following commands override recurrence logic:
+
+### Save most recent detected concept
+
+`@ux save`
+
+### Save specific concept immediately
+
+`@ux save: <concept>`
+
+### Skip current detection/proposal
+
+`@ux skip`
+
+### Create relation between concepts
+
+`@ux link: <A> -> <B>`
+
+Manual save:
+
+- Ignores recurrence threshold
+- Sets `Maturity = Observed`
+- Initializes `Recurrence Count` with local count if available (minimum 1)
+
+---
+
+## Notion Database Requirements
+
+Database name:
+UI/UX Knowledge Base
+
+Required properties:
+
+| Property | Type | Options / Notes |
+|---|---|---|
+| Concept | Title | Primary key |
+| Category | Select | Cognitive / Visual / Interaction / IA |
+| Recurrence Count | Number | Incremented on each sighting |
+| First Seen | Date | Set on creation only |
+| Last Seen | Date | Updated on every sighting |
+| Trigger Context | Multi-select | e.g. "pipeline-flicker", "route-transition" |
+| UI Decision Rule | Rich text | 2-3 actionable rules |
+| Product Context | Rich text | Where/why this concept matters |
+| Maturity | Select | Observed / Applied / Internalized |
+| Related Concepts | Relation (self) | Links between related entries |
+
+### Manual Setup (fallback)
+
+If direct REST API access is unavailable (e.g. no shell access,
+token not found in `~/.cursor/mcp.json`):
+
+1. Create a page under the chosen parent via MCP `API-post-page`.
+2. Print the property schema table above and instruct the user to
+   convert the page to an inline database in the Notion UI manually.
+3. Once converted, have the user provide the database ID to cache.
+
+---
+
+## Category Auto-Inference Rules
 
 - cognitive / overload / choice → Cognitive
 - hierarchy / contrast / alignment → Visual
@@ -94,58 +228,31 @@ User may override at proposal stage.
 
 ---
 
-### 2) Decision Logic
+## Notion Page Template (Concise Asset)
 
-**If concept exists in Notion:**
+When creating a new entry:
 
-- Increment `Recurrence Count`
-- Update `Last Seen` (today)
-- Merge new `Trigger Context` tags if applicable
-- Optionally append short "New evidence/context" note
-- No proposal required.
+### 1. One-Line Definition
 
-**If concept does not exist:**
+### 2. Why It Recurred in This Product
 
-- Track local recurrence counter (conversation-wide)
-- If local recurrence >= 2 → propose registration
-- If local recurrence < 2 → silently track, no action
+### 3. UI Decision Rule
 
-**Manual command overrides:**
+-
+-
+-
 
-| Command | Behavior |
-| --- | --- |
-| `@ux save` | Save most recent detected concept (ignores recurrence threshold) |
-| `@ux save: <concept>` | Save specific concept immediately (ignores recurrence threshold) |
-| `@ux skip` | Skip current detection/proposal |
-| `@ux link: <A> -> <B>` | Create relation between two concepts |
+### 4. Implementation Pattern
 
-Manual save sets `Maturity = Observed` and initializes `Recurrence Count` with local count if available (minimum 1).
+- Component:
+- Layout:
+- Code Hint:
 
----
+### 5. Anti-Pattern
 
-### 3) Actions
+-
 
-**Propose registration** (when threshold met):
-
-Proposal must include:
-
-- Concept name
-- Suggested category
-- One-line definition
-- 2–3 actionable UI decision rules
-
-Then ask: "Register to Notion? (Yes / No)"
-
-- If Yes → create entry using Notion Page Template (see Notes).
-- If No → do nothing (keep counter).
-
-**Update existing entry** (when concept already in Notion):
-
-- Patch `Recurrence Count`, `Last Seen`, `Trigger Context` via MCP `API-patch-page`.
-
-**Create relation** (on `@ux link` command):
-
-- Update `Related Concepts` relation property on both entries.
+### 6. Related Concepts
 
 ---
 
@@ -179,8 +286,6 @@ Local state:
 - If Notion DB is unavailable (user declined or MCP error), continue all detection
   and proposal logic in local-only mode. Never silently skip concept tracking.
 - Database bootstrap prompt must appear at most once per conversation.
-- Never write secrets or PII to Notion entries.
-- Prefer conservative proposals over spamming the user with low-confidence detections.
 
 ---
 
@@ -234,94 +339,19 @@ User types `@ux save: Fitts's Law` after a single mention during a button sizing
 
 ---
 
-## Notes
-
-### Database Creation Procedure
-
-**Known constraints** (as of Notion API 2025-09-03 / Internal Integration):
-
-- Workspace-level page creation is blocked for Internal Integrations.
-- The MCP `API-create-a-data-source` endpoint does not support
-  new database creation under API version 2025-09-03.
-
-**Procedure:**
-
-1. **Select a parent page**: Search for a suitable existing page
-   (e.g. the project's root page) using `API-post-search`.
-   Present candidate pages to the user and let them choose.
-
-2. **Create a dedicated container page** under the chosen parent
-   via MCP `API-post-page` (e.g. title "UX Sentinel", icon shield emoji).
-   **Do NOT create the inline database directly inside the parent page** —
-   the parent is typically an index page whose document structure would break.
-
-3. **Create the database via direct REST API** (Shell tool),
-   using the **container page ID** from step 2 as the parent:
-
-   ```bash
-   curl -s -X POST 'https://api.notion.com/v1/databases' \
-     -H 'Authorization: Bearer $NOTION_TOKEN' \
-     -H 'Content-Type: application/json' \
-     -H 'Notion-Version: 2022-06-28' \
-     -d '{ "parent": { "type": "page_id", "page_id": "<CONTAINER_PAGE_ID>" },
-            "title": [{"type":"text","text":{"content":"UI/UX Knowledge Base"}}],
-            "is_inline": true,
-            "properties": { <SCHEMA — see Database Schema below> } }'
-   ```
-
-   The `NOTION_TOKEN` can be found in `~/.cursor/mcp.json`
-   under `mcpServers.notion-local.env.NOTION_TOKEN`.
-
-4. **Cache the returned `database_id`** for the conversation.
-   After creation, all subsequent reads/writes use MCP tools
-   (`API-query-data-source`, `API-post-page`, `API-patch-page`)
-   which work normally with the 2025-09-03 API version.
-
-**Manual Setup (fallback):**
-
-If direct REST API access is unavailable (e.g. no shell access,
-token not found in `~/.cursor/mcp.json`):
-
-1. Create a page under the chosen parent via MCP `API-post-page`.
-2. Print the property schema table and instruct the user to
-   convert the page to an inline database in the Notion UI manually.
-3. Once converted, have the user provide the database ID to cache.
-
-### Database Schema
-
-Database name: `UI/UX Knowledge Base`
-
-| Property | Type | Options / Notes |
-| --- | --- | --- |
-| Concept | Title | Primary key |
-| Category | Select | Cognitive / Visual / Interaction / IA |
-| Recurrence Count | Number | Incremented on each sighting |
-| First Seen | Date | Set on creation only |
-| Last Seen | Date | Updated on every sighting |
-| Trigger Context | Multi-select | e.g. "pipeline-flicker", "route-transition" |
-| UI Decision Rule | Rich text | 2-3 actionable rules |
-| Product Context | Rich text | Where/why this concept matters |
-| Maturity | Select | Observed / Applied / Internalized |
-| Related Concepts | Relation (self) | Links between related entries |
-
-### Notion Page Template (Concise Asset)
-
-When creating a new entry, populate the page body with:
-
-1. One-Line Definition
-2. Why It Recurred in This Product
-3. UI Decision Rule (2-3 bullets)
-4. Implementation Pattern (Component / Layout / Code Hint)
-5. Anti-Pattern
-6. Related Concepts
-
-### Design Philosophy
+## Design Philosophy
 
 This skill does not create a glossary.
-It builds a decision-making memory system based on repeated UI friction signals.
+
+It builds a decision-making memory system
+based on repeated UI friction signals.
 
 Focus on:
 
 - Why it recurred
 - What rule it creates
 - How it affects implementation
+
+---
+
+## End of Skill
