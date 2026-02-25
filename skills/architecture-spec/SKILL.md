@@ -71,6 +71,7 @@ Without asking the user (unless unavailable), gather these inputs directly from 
 1. Risk Evaluation Summary (score breakdown, selected level)
 2. Architecture/Design Document (level-appropriate Markdown)
 3. ADR section (Level C only)
+4. Notion page URL (if Notion integration available)
 
 ---
 
@@ -121,6 +122,18 @@ Generate a Notion-ready Markdown document for the selected level:
 For Level C, additionally invoke [subskills/adr-generator.md](subskills/adr-generator.md) to produce a formal ADR section.
 
 All levels must include: Title, Metadata table, TL;DR, Changed files summary.
+
+### Step 4 — Publish to Notion (Optional)
+
+→ Uses [subskills/notion-page-publisher.md](subskills/notion-page-publisher.md)
+
+If Notion MCP integration is available, persist the generated spec to Notion:
+
+- Create or update a page in the target database
+- Map properties (Level, Risk Score, Feature, Status)
+- For Level C, attach ADR as a child page or appended section
+- If a Draft page with the same feature name exists, update instead of creating a new one
+- Return the Notion page URL
 
 ---
 
@@ -204,8 +217,9 @@ diff_summary: 850 LOC
 
 ## Notes
 
-This skill delegates detailed work to three subskills:
+This skill delegates detailed work to four subskills:
 
 - **diff-risk-evaluator** — risk scoring only (no document generation)
 - **notion-spec-generator** — Markdown document generation per level
 - **adr-generator** — ADR section for Level C changes
+- **notion-page-publisher** — Persist spec to Notion (optional, requires Notion MCP)

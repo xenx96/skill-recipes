@@ -42,3 +42,4 @@ The level is selected automatically.
 - [subskills/diff-risk-evaluator.md](subskills/diff-risk-evaluator.md) — Risk scoring
 - [subskills/notion-spec-generator.md](subskills/notion-spec-generator.md) — Document generation
 - [subskills/adr-generator.md](subskills/adr-generator.md) — ADR section (Level C)
+- [subskills/notion-page-publisher.md](subskills/notion-page-publisher.md) — Publish to Notion
