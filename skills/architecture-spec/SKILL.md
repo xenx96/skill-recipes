@@ -149,6 +149,7 @@ The document must answer:
 - Where can it fail?
 - How is it monitored?
 - How do we roll back?
+- Is the document visually scannable? (emoji headings, tables, diagrams, dividers)
 
 ---
 
