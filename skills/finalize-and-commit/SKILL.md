@@ -80,9 +80,44 @@ Optional but recommended:
 
 ### Gate 0 – Working Set Validation
 
-- Confirm modified files match intended scope
-- Ensure no unintended changes are included
-- Validate new/deleted files do not break entrypoints
+> **CRITICAL:** The working tree may contain changes from other agent sessions
+> or manual edits. This gate must isolate *only* the current session's changes
+> without disturbing anything else.
+
+**Step 0-1: Identify current session scope**
+
+- Review the conversation history and edit history of this session.
+- Build an explicit list of files that were created, modified, or deleted
+  *by this session*.
+- If the user provided a scope list (files or modules), use that as the
+  authoritative source.
+
+**Step 0-2: Inspect full working tree state**
+
+- Run `git status` and `git diff --name-only` to enumerate all uncommitted
+  changes in the working tree.
+
+**Step 0-3: Classify changes**
+
+- **In-scope:** Files that appear in both the session scope (Step 0-1)
+  and the working tree (Step 0-2).
+- **Out-of-scope:** Files that appear in the working tree but were NOT
+  modified by this session. These may belong to other agent sessions,
+  manual edits, or background tooling.
+
+**Step 0-4: Protect out-of-scope changes**
+
+- **NEVER** revert, restore, checkout, stash, or discard out-of-scope changes.
+- Out-of-scope files must be left exactly as they are in the working tree.
+- The only correct action is to *exclude* them from staging (`git add`).
+
+**Step 0-5: Confirm with the user**
+
+- Present a summary to the user:
+  - Files to be committed (in-scope)
+  - Files left untouched (out-of-scope), if any
+- Proceed only after the user confirms the commit target set.
+- Validate that new/deleted in-scope files do not break entrypoints.
 
 ---
 
@@ -144,6 +179,10 @@ If failures occur:
 
 ### Gate 5 – Commit Structuring
 
+**Staging rule:** Stage only in-scope files confirmed in Gate 0.
+Use `git add <specific-file>` for each file individually.
+Never use `git add .`, `git add -A`, or `git add --all`.
+
 Separate commits logically:
 
 1. Refactor (no behavior change)
@@ -177,6 +216,14 @@ Each commit must explain:
 - If context is insufficient to determine intent, ask for clarification.
 - Do not remove code without verifying it is truly unused.
 - Respect existing project conventions for commit messages and structure.
+- **NEVER** use `git checkout -- <file>`, `git restore`, `git stash`, `git reset --hard`,
+  or any other command that discards or reverts uncommitted changes to files
+  outside the current session's scope. Other sessions or agents may own those changes.
+- **NEVER** use `git add .`, `git add -A`, or `git add --all`. Always stage files
+  individually with `git add <specific-file>` to avoid accidentally including
+  out-of-scope changes.
+- Working tree changes from other sessions, agents, or manual edits must be
+  left completely untouched.
 
 ---
 
@@ -190,6 +237,9 @@ Common bad outputs:
 - Over-extracting helpers for code repeated only once or twice
 - Removing code that appears dead but is used via reflection or dynamic imports
 - Producing commit messages that describe "what" but not "why"
+- Reverting or discarding uncommitted changes that belong to other sessions or agents
+- Using `git add .` or `git add -A` which accidentally stages out-of-scope changes
+- Treating "ensure no unintended changes" as "revert unrelated files" instead of "exclude from staging"
 
 ---
 
