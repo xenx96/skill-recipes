@@ -51,7 +51,7 @@ def is_template_file(path: Path) -> bool:
 
 
 def is_readme_file(path: Path) -> bool:
-    return path.name.lower() == "readme.md"
+    return path.name.lower().startswith("readme")
 
 
 def is_subskill_file(path: Path) -> bool:

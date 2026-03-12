@@ -1,0 +1,39 @@
+# Finalize Documentation and Commit (문서 최종 정리 및 커밋)
+
+Docusaurus 문서 변경사항을 프로덕션 수준으로 최종 정리합니다.
+기존 컨벤션 탐색, 코드-문서 정합성 검증, 깔끔한 커밋 구조화를 수행합니다.
+
+이 스킬은:
+
+- 기존 문서를 샘플링하여 컨벤션을 탐색 (톤, 용어, 구조)
+- 소스 코드가 함께 변경된 경우 코드-문서 정합성을 검증
+- 형식, 용어, 톤, 완결성의 일관성을 검토
+- Docusaurus 전용 문법 및 빌드 무결성을 검증
+- 변경 유형별 커밋 구조화: `docs(fix)`, `docs(style)`, `docs(content)`, `docs(sync)`
+
+---
+
+## 왜 필요한가
+
+컨벤션 탐색을 건너뛰면 문서 품질이 저하됩니다.
+일관성 없는 용어, 깨진 링크, 코드와 맞지 않는 참조는
+사용자 신뢰를 떨어뜨립니다. 이 스킬은 외부에서 강제하는 것이 아닌
+기존 문서 코퍼스에서 추론한 기준으로 모든 문서 커밋의 품질을 보장합니다.
+
+---
+
+## 절차 (7-Gate)
+
+0. **Working Set Validation** — 세션 변경 격리, 범위 외 파일 보호
+1. **Convention Discovery** — 기존 문서 10~15개 샘플링하여 스타일, 톤, 용어 추론
+2. **Code-Documentation Alignment** — 소스 코드 변경을 문서 참조에 매핑
+3. **Documentation Quality Review** — 구조, 용어, 톤, 완결성, 문법, 이미지, 링크, 사이드바
+4. **Auto-Fix** — 판단 불필요 항목 자동 수정, 판단 필요 항목 제시
+5. **Build Verification** — Docusaurus 빌드 실행 및 결과 확인
+6. **Commit Structuring** — 변경 유형별 Conventional Commits 형식 커밋 분리
+
+---
+
+## 구조
+
+- [SKILL.md](SKILL.md) — 메인 스킬
