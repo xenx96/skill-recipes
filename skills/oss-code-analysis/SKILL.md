@@ -163,7 +163,11 @@ Locate the code that implements the target feature:
 
 **3-3. Key file inventory**
 
-Produce a list of 5–15 key files with their roles:
+Produce a list of key files with their roles:
+
+- **Compare mode:** 5–8 key files per repository (focus on the most
+  relevant to the target feature)
+- **Deep-dive mode:** 8–15 key files (broader coverage acceptable)
 
 ```
 path/to/file.ts — Role description (e.g., "Main scheduler loop")
@@ -173,6 +177,14 @@ path/to/types.ts — Role description (e.g., "Core data structures")
 ---
 
 ### Step 4 – Code-Level Deep Reading
+
+> **SCOPING RULE:** For each key file, first read **exported symbols,
+> type signatures, and function headers only** (first pass).
+> Then full-read only the functions/sections directly relevant to the
+> target feature (second pass). For files exceeding 500 lines, always
+> use line-range reading restricted to the relevant sections.
+> Maximum full-read budget: **10 files per repository** in compare mode,
+> **15 files** in deep-dive mode.
 
 Read each key file and analyze:
 
@@ -360,6 +372,14 @@ Focus: how session management and JWT handling are implemented internally
 ---
 
 ## Notes
+
+**FAST MODE** (only if explicitly requested):
+
+- Limit to 3 key files per repository
+- Skip Step 5 (Technology Stack Analysis)
+- In compare mode, limit to 3 repositories maximum
+
+---
 
 - This skill complements `competitive-feature-benchmark` which operates at the UX/interaction level. Use both together for a complete picture: code-level implementation (this skill) + user-facing design (competitive-feature-benchmark).
 - For very large repositories, consider analyzing only the most recent tagged release rather than the HEAD of the default branch to ensure stability of analysis.
