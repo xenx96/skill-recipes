@@ -11,7 +11,7 @@ compatibility:
 metadata:
   type: execution
   category: cleanup
-  maturity: draft
+  maturity: stable
   estimated_time: 15 min
 ---
 

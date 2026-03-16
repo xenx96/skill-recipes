@@ -12,7 +12,7 @@ compatibility:
 metadata:
   type: execution
   category: documentation
-  maturity: draft
+  maturity: stable
   estimated_time: 15 min
 ---
 

@@ -15,16 +15,15 @@ compatible with Claude Code, Cursor, Codex, Gemini CLI, and 27+ AI agents.
 
 ### Browse
 
-```
-skills/
-├── architecture-spec/SKILL.md          (+ subskills/)
-├── change-reaudit/SKILL.md
-├── competitive-feature-benchmark/SKILL.md
-├── docs-finalize-and-commit/SKILL.md
-├── finalize-and-commit/SKILL.md
-├── oss-code-analysis/SKILL.md
-└── ux-sentinel/SKILL.md
-```
+| Skill | Type | Description |
+|---|---|---|
+| [architecture-spec](skills/architecture-spec/) | Execution | Risk-based architecture doc generation with auto-leveling (A/B/C) |
+| [change-reaudit](skills/change-reaudit/) | Execution | Re-audit code changes for side effects, regressions, and edge cases |
+| [competitive-feature-benchmark](skills/competitive-feature-benchmark/) | Execution | Compare competing products at the UX and interaction level |
+| [docs-finalize-and-commit](skills/docs-finalize-and-commit/) | Execution | Finalize documentation with convention discovery and consistency checks |
+| [finalize-and-commit](skills/finalize-and-commit/) | Execution | Finalize code for production — dedup, hardcode audit, clean commits |
+| [oss-code-analysis](skills/oss-code-analysis/) | Execution | Analyze OSS repos at the code level (compare or deep-dive mode) |
+| [ux-sentinel](skills/ux-sentinel/) | System | Auto-detect recurring UX concepts and persist to Notion DB |
 
 ### Install a skill
 
@@ -70,7 +69,7 @@ compatibility:
 metadata:
   type: execution
   category: review
-  maturity: draft
+  maturity: stable
   estimated_time: 10 min
 ---
 ```

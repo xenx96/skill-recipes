@@ -10,7 +10,7 @@ compatibility:
 metadata:
   type: execution
   category: review
-  maturity: draft
+  maturity: stable
   estimated_time: 10 min
 ---
 
