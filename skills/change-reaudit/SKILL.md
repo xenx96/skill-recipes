@@ -100,6 +100,8 @@ For each Change Unit, summarize:
 > database writes exist in any Change Unit → State mutations is
 > not relevant), note "N/A — no relevant changes" and move to the next
 > dimension. Do NOT skip the relevance check itself.
+> "Zero intersection" means the Change Units contain no code that could
+> possibly affect that dimension. If uncertain or indirect, treat as relevant.
 
 For each Change Unit, explicitly evaluate:
 

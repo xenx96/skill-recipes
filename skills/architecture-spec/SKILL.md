@@ -81,7 +81,8 @@ Without asking the user (unless unavailable), gather these inputs directly from 
 
 ### Step 1 — Evaluate Risk
 
-→ Uses [subskills/diff-risk-evaluator.md](subskills/diff-risk-evaluator.md)
+→ Detailed scoring criteria: [subskills/diff-risk-evaluator.md](subskills/diff-risk-evaluator.md)
+  (load only if the summary below is insufficient for scoring)
 
 Analyze changed files and calculate a deterministic risk score across three dimensions:
 
