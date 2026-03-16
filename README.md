@@ -17,13 +17,13 @@ compatible with Claude Code, Cursor, Codex, Gemini CLI, and 27+ AI agents.
 
 ```
 skills/
+├── architecture-spec/SKILL.md          (+ subskills/)
 ├── change-reaudit/SKILL.md
 ├── competitive-feature-benchmark/SKILL.md
+├── docs-finalize-and-commit/SKILL.md
 ├── finalize-and-commit/SKILL.md
-├── ux-sentinel/SKILL.md
-└── architecture-spec/
-    ├── SKILL.md
-    └── subskills/
+├── oss-code-analysis/SKILL.md
+└── ux-sentinel/SKILL.md
 ```
 
 ### Install a skill
