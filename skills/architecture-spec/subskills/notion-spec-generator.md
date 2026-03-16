@@ -91,6 +91,11 @@ Use emoji badges for risk/status indicators:
 
 ---
 
+> **READING RULE:** This subskill contains templates for all three
+> levels (A, B, C). Read only the Common Header section and the
+> section matching the selected level. Skip the other level templates
+> to conserve context.
+
 ## Common Header (All Levels)
 
 Every document must begin with the following structure:

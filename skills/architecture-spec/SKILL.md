@@ -113,7 +113,8 @@ If unsure, prefer B over A.
 
 ### Step 3 — Generate Document
 
-→ Uses [subskills/notion-spec-generator.md](subskills/notion-spec-generator.md)
+→ Load and follow [subskills/notion-spec-generator.md](subskills/notion-spec-generator.md)
+  at this point (not before).
 
 Generate a Notion-ready Markdown document for the selected level:
 
@@ -121,13 +122,20 @@ Generate a Notion-ready Markdown document for the selected level:
 - **Level B** — Level A + Architecture, Sequence Diagram, API Spec, Edge Cases, Security Notes, Operational Notes, Future Improvements
 - **Level C** — Level B + Threat Model, Failure Flow, Rollback Plan, Observability Plan, ADR-style Decisions
 
-For Level C, additionally invoke [subskills/adr-generator.md](subskills/adr-generator.md) to produce a formal ADR section.
+For Level C only, additionally load and follow
+[subskills/adr-generator.md](subskills/adr-generator.md) to produce
+a formal ADR section. Do NOT load this subskill for Level A or B.
 
 All levels must include: Title, Metadata table, TL;DR, Changed files summary.
 
 ### Step 4 — Publish to Notion (Optional)
 
-→ Uses [subskills/notion-page-publisher.md](subskills/notion-page-publisher.md)
+> **ACTIVATION:** This step runs only if Notion MCP integration is
+> available and the user requests publishing. If skipped, do NOT load
+> the subskill file.
+
+→ Load and follow [subskills/notion-page-publisher.md](subskills/notion-page-publisher.md)
+  only when this step is activated.
 
 If Notion MCP integration is available, persist the generated spec to Notion:
 
@@ -219,6 +227,14 @@ diff_summary: 850 LOC
 ---
 
 ## Notes
+
+**FAST MODE** (only if explicitly requested):
+
+- Always use Level A regardless of risk score
+- Skip Step 4 (Notion publish)
+- Risk evaluation still runs for the metadata record
+
+---
 
 This skill delegates detailed work to four subskills:
 
