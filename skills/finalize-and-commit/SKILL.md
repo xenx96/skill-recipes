@@ -123,6 +123,11 @@ Optional but recommended:
 
 ### Gate 1 – Duplicate & Dead Code Detection
 
+> **SCOPING RULE:** Focus analysis on **in-scope files only** (from
+> Gate 0). When checking for duplicates, search for similar patterns
+> in the immediate module/directory first, then expand to adjacent
+> modules only if duplication signals are found.
+
 - Identify repeated logic blocks
   - If repeated ≥ 3 times → extract helper
   - Avoid over-abstraction
@@ -135,6 +140,12 @@ Optional but recommended:
 ---
 
 ### Gate 2 – Hardcoded Value Audit
+
+> **SCOPE ADJUSTMENT:** If all in-scope changes are limited to test
+> files, documentation, or type definitions, perform a quick scan
+> (search for numeric literals and string constants in the diff)
+> instead of a full classification audit. The full audit is required
+> when production logic files are in scope.
 
 Classify hardcoded values into:
 
