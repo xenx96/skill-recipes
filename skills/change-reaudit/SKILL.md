@@ -94,6 +94,13 @@ For each Change Unit, summarize:
 
 ### Gate 1 – Side Effect Analysis
 
+> **EFFICIENCY RULE:** Before deep-analyzing each dimension, perform a
+> quick relevance check based on the Change Units from Gate 0. If a
+> dimension has zero intersection with the change scope (e.g., no
+> database writes exist in any Change Unit → State mutations is
+> not relevant), note "N/A — no relevant changes" and move to the next
+> dimension. Do NOT skip the relevance check itself.
+
 For each Change Unit, explicitly evaluate:
 
 - Public contract changes
@@ -147,6 +154,11 @@ Each risk must include:
 ---
 
 ### Gate 2 – Edge Case Matrix
+
+> **SCOPING RULE:** Apply edge case verification only to code paths
+> that were **modified or newly introduced** in the current diff.
+> Pre-existing edge case gaps in unchanged code are out of scope
+> for this audit.
 
 Explicitly verify handling of:
 
