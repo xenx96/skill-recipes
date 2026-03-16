@@ -98,6 +98,11 @@ For each competitor:
 
 ### Step 2 – Feature Breakdown per Competitor
 
+> **EFFICIENCY RULE:** When analyzing multiple competitors, batch
+> independent web searches in parallel where possible. Collect all
+> competitor data before proceeding to Step 3, rather than completing
+> full analysis of one competitor before starting the next.
+
 For each competitor, analyze:
 
 #### A. Information Architecture
@@ -132,6 +137,12 @@ For each competitor, analyze:
 - Deep nesting
 
 ---
+
+> **CONTEXT MANAGEMENT:** After completing Step 2, compile findings
+> into the comparison table immediately (Step 3). Use only the
+> structured table — not the raw research notes — as input for
+> Steps 4 and 5. This prevents context accumulation from verbose
+> research outputs.
 
 ### Step 3 – Comparative Table (Mandatory)
 
@@ -236,5 +247,13 @@ Competitors: Mixpanel, Amplitude, PostHog, Metabase.
 ---
 
 ## Notes
+
+**FAST MODE** (only if explicitly requested):
+
+- Limit to 3 competitors
+- Skip dimension D (Power-user Support) and E (Edge Case Handling) in Step 2
+- Comparison table still mandatory
+
+---
 
 If competitors are not specified in the input, identify 3–5 relevant products in the same domain before proceeding.
