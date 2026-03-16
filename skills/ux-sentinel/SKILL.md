@@ -57,6 +57,13 @@ not per-project or per-feature.
 
 ## Core Behavior
 
+> **DETECTION FREQUENCY:** Concept detection runs on every user message
+> that contains **3 or more words related to UI, UX, design, layout,
+> interaction, or visual presentation**. Messages that are purely about
+> code logic, configuration, or non-frontend topics do not trigger
+> detection. This prevents unnecessary Notion queries during backend
+> or infrastructure discussions.
+
 ### 0. Database Bootstrap (runs once per conversation)
 
 Before any concept detection, verify the Notion database exists:
@@ -123,6 +130,11 @@ Do NOT re-prompt on every concept detection.
 ---
 
 ### 1. Concept Detection
+
+> **QUERY EFFICIENCY:** When querying Notion DB for an existing
+> concept, request only the `Title` and `Recurrence Count` properties
+> (not the full page content). Full page content is only needed when
+> updating `Trigger Context` or appending notes in Section 2.
 
 When a UI/UX concept appears:
 
@@ -351,6 +363,16 @@ User types `@ux save: Fitts's Law` after a single mention during a button sizing
    - Maturity: Observed
    - UI Decision Rule: (1) Increase tap target size for primary actions to minimum 44px, (2) Place frequently used buttons closer to natural cursor/thumb resting position.
 5. Confirm to user: "Fitts's Law registered to UI/UX Knowledge Base."
+
+---
+
+## Notes
+
+**FAST MODE** (only if explicitly requested):
+
+- Increase recurrence threshold to 3
+- Skip Notion query — use local-only tracking for the entire session
+- Manual `@ux save` commands still work in local-only mode
 
 ---
 
