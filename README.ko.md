@@ -7,7 +7,7 @@
 재사용 가능하고 실패 확률을 줄이는 구조화된 워크플로우 시스템입니다.
 
 모든 스킬은 [SKILL.md 오픈 표준](https://agentskills.io/)을 따릅니다.
-Claude Code, Cursor, Codex, Gemini CLI 등 27+ AI 에이전트와 호환됩니다.
+Cursor, Claude Code, VS Code + Copilot, Codex, Gemini CLI 등 SKILL.md 호환 에이전트에서 사용할 수 있습니다.
 
 ---
 
@@ -37,6 +37,9 @@ cp -r skills/change-reaudit ~/.cursor/skills/
 
 # Claude Code
 cp -r skills/change-reaudit ~/.claude/skills/
+
+# VS Code + Copilot (.claude/skills/ 자동 인식 또는 전용 경로 사용)
+cp -r skills/change-reaudit ~/.copilot/skills/
 ```
 
 에이전트가 자동으로 스킬을 탐색하고 매칭되는 작업에 활성화합니다.

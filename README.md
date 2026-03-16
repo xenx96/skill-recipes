@@ -7,7 +7,7 @@ designed for software engineering tasks — debugging, documentation, review,
 research, automation, and system analysis.
 
 Each skill follows the [SKILL.md open standard](https://agentskills.io/) —
-compatible with Claude Code, Cursor, Codex, Gemini CLI, and 27+ AI agents.
+compatible with Cursor, Claude Code, VS Code + Copilot, Codex, Gemini CLI, and other SKILL.md-compatible agents.
 
 ---
 
@@ -35,6 +35,9 @@ cp -r skills/change-reaudit ~/.cursor/skills/
 
 # Claude Code
 cp -r skills/change-reaudit ~/.claude/skills/
+
+# VS Code + Copilot (auto-discovers .claude/skills/ or use dedicated path)
+cp -r skills/change-reaudit ~/.copilot/skills/
 ```
 
 The agent will automatically discover and activate the skill when a matching task appears.
