@@ -136,13 +136,25 @@ Optional but recommended:
 > **PURPOSE:** Since no formal style guide exists, infer conventions from
 > existing documentation to use as the review baseline.
 
-**Step 1-1: Sample existing documentation**
+**Step 1-1a: Scan documentation headers**
 
-- Read 10–15 representative `.md`/`.mdx` files from the docs directory
+- Read **frontmatter + first 30 lines** of 10–15 representative
+  `.md`/`.mdx` files from the docs directory
   (prioritize recently modified, high-traffic pages).
 - If fewer than 10 documentation files exist, read all available files.
 - Exclude files in the current session's change set to avoid circular
   reference.
+- From this scan, extract: frontmatter field names, heading structure,
+  first paragraph tone/speech level.
+
+**Step 1-1b: Deep read divergent samples**
+
+- Compare patterns extracted in Step 1-1a across all samples.
+- Identify files where patterns diverge or are ambiguous
+  (e.g., inconsistent frontmatter fields, mixed heading levels).
+- Full-read only the divergent files (typically 2–5 files) to resolve
+  ambiguity.
+- If all samples show consistent patterns in Step 1-1a, skip this step.
 
 **Step 1-2: Extract structural patterns**
 
@@ -267,6 +279,9 @@ Apply the Convention Reference from Gate 1 to all doc-scope files.
 
 **3f) Image and screenshot references**
 
+> **SKIP CONDITION:** Skip if no image references (`![`, `<img`) exist
+> in any doc-scope file. Verify with a quick text search before skipping.
+
 - Every image reference (`![alt](path)` or `<img src="path">`) points to a
   file that exists in the repository.
 - All images have non-empty alt text.
@@ -280,6 +295,10 @@ Apply the Convention Reference from Gate 1 to all doc-scope files.
 - No broken cross-references between documentation pages.
 
 **3h) Sidebar and navigation alignment**
+
+> **SKIP CONDITION:** Skip if no files were added or deleted in this
+> session (only modifications). Sidebar/nav changes are only relevant
+> when the file set changes.
 
 - Identify the sidebar/navigation configuration mechanism (e.g.,
   `sidebars.js` in Docusaurus, `_meta.json` in Nextra, `nav` in
