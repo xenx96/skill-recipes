@@ -59,8 +59,8 @@ You must use the correct template.
 
 Use one of:
 
-- `skills/_template/execution-skill.md`
-- `skills/_template/system-skill.md`
+- `skills/_template/execution-template.md`
+- `skills/_template/system-template.md`
 
 Do NOT:
 

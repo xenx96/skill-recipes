@@ -66,6 +66,11 @@ not per-project or per-feature.
 
 ### 0. Database Bootstrap (runs once per conversation)
 
+> **MCP COMPATIBILITY:** The tool names below (e.g., `API-post-search`,
+> `API-post-page`) follow the `@notionhq/notion-mcp-server` convention.
+> If your MCP server uses different tool names, map them to the
+> equivalent Notion REST API endpoints (`POST /v1/search`, `POST /v1/pages`, etc.).
+
 Before any concept detection, verify the Notion database exists:
 
 1. Search Notion for a database titled `UI/UX Knowledge Base`
@@ -85,9 +90,9 @@ Do NOT re-prompt on every concept detection.
 
 #### Database Creation
 
-**Known constraints** (as of Notion API 2025-09-03 / Internal Integration):
+**Known constraints** (as of Notion API 2025-09-03 / Notion Internal Integration type):
 
-- Workspace-level page creation is blocked for Internal Integrations.
+- Workspace-level page creation is blocked for Notion Internal Integrations (as opposed to Public OAuth Integrations).
 - The MCP `API-create-a-data-source` endpoint does not support
   new database creation under API version 2025-09-03.
 
@@ -118,7 +123,7 @@ Do NOT re-prompt on every concept detection.
 
    The `NOTION_TOKEN` can be retrieved from your MCP client's configuration.
    Common locations:
-   - Cursor: `~/.cursor/mcp.json` → `mcpServers.notion-local.env.NOTION_TOKEN`
+   - Cursor: `~/.cursor/mcp.json` → `mcpServers.<your-notion-server>.env.NOTION_TOKEN`
    - Claude Desktop: `~/Library/Application Support/Claude/claude_desktop_config.json`
    - Other clients: check your MCP client's documentation
 
