@@ -1,8 +1,8 @@
 ---
 name: docs-finalize-and-commit
 description: >
-  Finalize Docusaurus documentation changes for production readiness by
-  discovering existing conventions, verifying code-doc alignment, reviewing
+  Finalize documentation changes for production readiness by discovering
+  existing conventions, verifying code-doc alignment, reviewing
   format/terminology/tone consistency, and structuring clean commits.
   Counterpart of finalize-and-commit for documentation projects.
 license: MIT
@@ -22,16 +22,17 @@ metadata:
 
 ## Purpose
 
-Finalize documentation changes for production readiness in a Docusaurus-based
-user manual project that coexists with the product source code in the same
-workspace.
+Finalize documentation changes for production readiness in a documentation
+project that coexists with the product source code in the same workspace.
+Works with any documentation framework (Docusaurus, VitePress, MkDocs, Nextra,
+plain Markdown, etc.).
 
 Tasks:
 
 - Discover conventions from existing documentation
 - Verify code-documentation alignment when source code changed
 - Review format, terminology, tone, and completeness consistency
-- Validate Docusaurus-specific syntax and build integrity
+- Validate framework-specific syntax and build integrity
 - Prepare structured commits separated by change type
 
 ---
@@ -52,7 +53,7 @@ Tasks:
 - Trivial single-line typo fixes that need no consistency review
 - Initial documentation scaffolding or exploratory writing phases
 - Changes already reviewed and approved through another skill
-- Non-Docusaurus documentation projects (Markdown-only without Docusaurus)
+- Standalone Markdown files outside a documentation project structure
 
 ---
 
@@ -61,7 +62,8 @@ Tasks:
 Do not run this skill without:
 
 - [ ] Working tree with uncommitted or staged `.md`/`.mdx` file changes
-- [ ] Access to the Docusaurus project build command
+- [ ] Access to the documentation project build command (if the framework
+  provides one)
 - [ ] Existing documentation files to derive conventions from (at least 3 pages)
 
 Optional but recommended:
@@ -168,13 +170,18 @@ Optional but recommended:
   "~하세요" imperative).
 - Note active vs passive voice preference.
 
-**Step 1-5: Catalog Docusaurus conventions**
+**Step 1-5: Identify documentation framework and catalog its conventions**
 
-- Admonition types used (e.g., `:::note`, `:::tip`, `:::warning`,
-  `:::danger`, `:::info`) and when each is applied.
-- Tab component patterns (`<Tabs>`, `<TabItem>`), if any.
-- Code block language tags and annotation conventions.
-- Custom component usage patterns (MDX imports).
+- Detect the documentation framework in use by examining configuration files
+  (e.g., `docusaurus.config.js`, `.vitepress/config.*`, `mkdocs.yml`,
+  `next.config.*` for Nextra, or none for plain Markdown).
+- Catalog framework-specific syntax patterns found in existing documentation:
+  - Admonition/callout syntax (e.g., `:::note` in Docusaurus/VitePress,
+    `!!! note` in MkDocs, `> [!NOTE]` in GitHub-flavored Markdown).
+  - Component patterns (e.g., `<Tabs>`/`<TabItem>` in Docusaurus,
+    custom MDX components in Nextra).
+  - Code block language tags and annotation conventions.
+  - Custom component or shortcode usage patterns.
 
 **Step 1-6: Compile Convention Reference**
 
@@ -249,12 +256,13 @@ Apply the Convention Reference from Gate 1 to all doc-scope files.
 - No empty sections (heading followed immediately by another heading or EOF).
 - No untranslated placeholder text if the documentation is localized.
 
-**3e) Docusaurus syntax validity**
+**3e) Framework-specific syntax validity**
 
-- Admonitions properly opened and closed (`:::type` ... `:::`).
-- Tab components have matching open/close tags and required attributes.
+- Admonitions/callouts properly opened and closed per the framework's syntax.
+- Framework-specific components have matching open/close tags and required
+  attributes (if applicable).
 - Code blocks have language tags and are properly fenced.
-- MDX imports resolve to existing components.
+- MDX/component imports resolve to existing components (if applicable).
 - Frontmatter YAML is valid (no syntax errors, no duplicate keys).
 
 **3f) Image and screenshot references**
@@ -273,12 +281,14 @@ Apply the Convention Reference from Gate 1 to all doc-scope files.
 
 **3h) Sidebar and navigation alignment**
 
-- Identify the sidebar configuration file (`sidebars.js`, `sidebars.ts`,
-  or `sidebars.yaml`).
-- New documentation files added in this session are registered in the sidebar.
-- Deleted documentation files are removed from the sidebar.
-- `sidebar_position` values in frontmatter do not conflict with other pages
-  in the same category.
+- Identify the sidebar/navigation configuration mechanism (e.g.,
+  `sidebars.js` in Docusaurus, `_meta.json` in Nextra, `nav` in
+  `mkdocs.yml`, auto-generated from directory structure in VitePress).
+- New documentation files added in this session are registered in the
+  navigation configuration.
+- Deleted documentation files are removed from the navigation configuration.
+- Ordering metadata (e.g., `sidebar_position` in frontmatter, file ordering
+  in config) does not conflict with other pages in the same category.
 
 **Produce a Quality Review Report** organized by severity:
 
@@ -320,10 +330,11 @@ Items that need user input:
 
 ### Gate 5 – Build Verification
 
-**Step 5-1: Run Docusaurus build**
+**Step 5-1: Run documentation build**
 
-- Execute the project's build command (e.g., `npm run build`, `yarn build`,
-  or `npx docusaurus build`) from the documentation project root.
+- Detect the build command from the project configuration (e.g.,
+  `package.json` scripts, `Makefile`, or framework CLI).
+- Execute the build command from the documentation project root.
 - Capture full output including warnings.
 
 **Step 5-2: Evaluate results**
@@ -379,7 +390,7 @@ Use Conventional Commits format. Each message must include:
 
 - Do not invent or fabricate documentation content not supported by the source
   code or existing documentation.
-- Do not silence or bypass Docusaurus build errors.
+- Do not silence or bypass documentation build errors.
 - Do not modify documentation tone or style without Convention Reference
   backing.
 - Do not alter existing screenshots or images — only flag broken references.
