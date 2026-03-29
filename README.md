@@ -28,7 +28,13 @@ compatible with Cursor, Claude Code, VS Code + Copilot, Codex, Gemini CLI, and o
 
 ### Install a skill
 
-Copy a skill folder to your agent's skills directory:
+Install all skills at once from the [skills.sh marketplace](https://skills.sh/comsky/remy-skill-recipes):
+
+```bash
+npx skills add comsky/remy-skill-recipes
+```
+
+Or copy a single skill manually:
 
 ```bash
 # Cursor
